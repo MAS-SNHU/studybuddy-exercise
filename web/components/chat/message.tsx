@@ -32,7 +32,7 @@ function MessageComponent({ role, content }: MessageProps) {
         {isUser ? (
           <p className="text-foreground whitespace-pre-wrap">{content}</p>
         ) : (
-          <div className="prose dark:prose-invert max-w-none text-sm">
+          <div className="prose dark:prose-invert max-w-none text-sm prose-strong:text-foreground prose-strong:font-semibold">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{

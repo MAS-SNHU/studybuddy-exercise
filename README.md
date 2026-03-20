@@ -37,7 +37,7 @@ identified gaps that need addressing before launch.
    git clone <repo>
    cd studybuddy
    cp .env.example .env
-   # Add your OPENAI_API_KEY to .env
+   # Configure your LLM (see "Model Configuration" below)
    ```
 
 2. Install and run backend:
@@ -52,6 +52,62 @@ identified gaps that need addressing before launch.
    ```
 
 4. Open http://localhost:3000 and chat with StudyBuddy
+
+### Test Interactions
+
+The app includes sample study notes on several topics. Try these prompts to explore:
+
+```
+"What subjects do I have notes on?"
+"Quiz me on machine learning"
+"Help me study the French Revolution"
+"Explain photosynthesis from my notes"
+"Create flashcards for quadratic equations"
+```
+
+**Available sample topics:** Machine Learning, The French Revolution, Photosynthesis, Cell Structure, Quadratic Equations
+
+### Model Configuration
+
+**We strongly recommend using a hosted frontier model** (GPT-4o, Claude, etc.) for best
+results. The agent relies on tool-calling capabilities that work best with frontier models.
+
+**OpenAI (preferred):**
+```bash
+# .env
+OPENAI_API_KEY=sk-...
+LLM_MODEL=gpt-4o
+```
+
+We've tested primarily with OpenAI, so this gives the most consistent experience. If you
+don't have an OpenAI key, the following alternatives also work:
+
+**Anthropic Claude (fallback):**
+```bash
+# First: uv add langchain-anthropic
+# .env
+ANTHROPIC_API_KEY=sk-ant-...
+LLM_MODEL=claude-sonnet-4-20250514
+```
+
+**Azure OpenAI (fallback):**
+```bash
+# .env
+AZURE_OPENAI_API_KEY=...
+AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+LLM_MODEL=azure_openai:your-deployment-name
+```
+
+**Local models (last resort):**
+```bash
+# First: Install Ollama and pull a model (e.g., ollama pull llama3.1)
+# First: uv add langchain-ollama
+# .env
+LLM_MODEL=ollama:llama3.1
+```
+
+**Note:** Local models may have significantly reduced capabilities and may produce
+inconsistent results. Use only if you have no access to a hosted model.
 
 ---
 
@@ -275,4 +331,9 @@ into every conversation.
 ### Troubleshooting
 
 **Missing API key:**
-Ensure `OPENAI_API_KEY` is set in your `.env` file.
+Ensure your LLM provider's API key is set in `.env`. See [Model Configuration](#model-configuration)
+for supported providers.
+
+**Model not found:**
+If using a non-OpenAI provider, make sure you've added the required dependency
+(e.g., `uv add langchain-anthropic` for Claude).
