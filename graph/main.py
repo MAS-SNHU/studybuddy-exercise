@@ -41,7 +41,9 @@ def build_graph(model: str | BaseChatModel, model_kwargs: dict | None = None):
     # System prompt
     system_prompt = format_system_prompt()
 
-    # Build using create_react_agent for simple tool-calling agent
+    # Build using create_react_agent — the LLM selects tools based on intent.
+    # Tool docstrings and the system prompt are the routing mechanism; no
+    # programmatic keyword matching is needed or used.
     graph = create_react_agent(
         model=model,
         tools=tools,

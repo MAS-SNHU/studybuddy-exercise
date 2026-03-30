@@ -83,11 +83,20 @@ def _call_llm_for_flashcards(notes_text: str, count: int) -> list[dict]:
 
 @tool
 def generate_flashcards(topic: str, count: int = 5) -> str:
-    """Generate study flashcards for a topic using the student's notes.
+    """Generate study flashcards when the student's intent is active recall or knowledge testing.
 
-    Use this tool when the student asks to be quizzed, tested, or requests
-    flashcards on a subject. Questions are shown first; answers are embedded
-    in the output and should only be revealed when the student asks.
+    Use this tool whenever the student's goal is to *test themselves* rather than
+    *passively read*. This includes explicit requests ("quiz me", "make flashcards")
+    and indirect ones ("help me remember this", "test my understanding",
+    "give me practice questions", "what should I know?", "I want to review",
+    "can you check if I understand this?"). Use judgment: if the student is trying
+    to actively retrieve or verify knowledge — not just ask a question — use this tool.
+
+    Do NOT use for plain factual questions like "what is photosynthesis?" — those
+    should be answered directly or via search_notes.
+
+    Questions are shown first; answers are embedded in the output and should only
+    be revealed when the student explicitly asks for them.
 
     Args:
         topic: The subject or topic to generate flashcards for.
